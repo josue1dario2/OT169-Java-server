@@ -6,9 +6,11 @@ import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.SlideService;
 import com.alkemy.ong.utils.SlideMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SlideServiceImpl implements SlideService {
 
     @Autowired

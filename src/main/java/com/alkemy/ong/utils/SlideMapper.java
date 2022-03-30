@@ -6,7 +6,14 @@ import com.alkemy.ong.dto.SlideResponseDto;
 import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.entity.Slide;
 import com.alkemy.ong.repository.OrganizationRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 
 public class SlideMapper {
 
