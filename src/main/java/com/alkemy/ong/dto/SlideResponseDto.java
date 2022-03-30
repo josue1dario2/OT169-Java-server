@@ -11,18 +11,5 @@ public class SlideResponseDto {
 
     private Integer order;
 
-    private OrganizationDto organization;
+    private OrganizationResponseDto organization;
 }
-/*
-@Column(name= "Image_url")
-    private String imageUrl;
-
-    private String text;
-
-    @Column(name= "slide_order")
-    private Integer order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "slide_organizationId")
-    private OrganizationEntity organizationId;
- */
