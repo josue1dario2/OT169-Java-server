@@ -25,7 +25,7 @@ public class CategoriesController {
 	}
 
 	@GetMapping("/{id}") // OT169-41
-	public ResponseEntity<Category> getById(@PathVariable(name = "id", required = false) String id) {
+	public ResponseEntity<Category> getById(@PathVariable(name = "id", required = false) String id, @RequestBody Category category) {
 		if (categoryService.existsById(id)) {// If the ID corresponds to an Category, returns it
 			return new ResponseEntity<Category>(categoryService.getById(id), HttpStatus.OK);
 		}
