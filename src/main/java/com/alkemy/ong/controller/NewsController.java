@@ -18,9 +18,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/news")
 public class NewsController {
-
+    private final NewsService newsService;
     @Autowired
-    private NewsService newsService;
+    public NewsController(NewsService newsService){
+        this.newsService = newsService;
+    }
 
     @ApiOperation(value = "Add News and returns the new created ")
     @ApiResponses( value={

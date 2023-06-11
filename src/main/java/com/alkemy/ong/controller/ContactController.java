@@ -14,9 +14,11 @@ import static org.springframework.http.HttpStatus.*;
 @CrossOrigin(origins = "*")
 @RequestMapping(path = "/contacts")
 public class ContactController {
-
+    private final ContactServiceImpl contactService;
     @Autowired
-    private ContactServiceImpl contactService;
+    public ContactController(ContactServiceImpl contactService){
+        this.contactService = contactService;
+    }
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody @Valid ContactDto dto) throws Exception {

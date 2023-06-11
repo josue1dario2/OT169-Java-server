@@ -20,13 +20,14 @@ import java.util.Map;
 @RequestMapping("/testimonials")
 @Api(tags = "Testimonials endpoints")
 public class TestimonialController {
-
-
+    private final TestimonialService testimonialService;
     @Autowired
-    private TestimonialService testimonialService;
+    public TestimonialController(TestimonialService testimonialService){
+        this.testimonialService = testimonialService;
+    }
 
 
-    //**POST**//
+
     @ApiOperation(value = "Add a new testimonial and return it")
     @ApiResponses(value = { @ApiResponse(code = 201 , message= "Create Testimonial"),
             @ApiResponse(code = 401, message = "There aren't authorization headers"),
@@ -39,8 +40,6 @@ public class TestimonialController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTestimonials);
     }
 
-
-    //**DELETE**//
     @ApiOperation(value = "Delete a testimonial by id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Delete Testimonial by id"),
             @ApiResponse(code = 404, message = "Testimonial not found"),
@@ -58,9 +57,6 @@ public class TestimonialController {
         return  ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
-
-    //**PUT**/
     @ApiOperation(value = "Update a testimonial by id")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Update testimonial"),
             @ApiResponse(code = 404, message = "Testimonial not found"),
@@ -86,8 +82,6 @@ public class TestimonialController {
         }
     }
 
-
-    //**PAGINATION**//
     @ApiOperation(value = "Get a paginated list of testimonials")
     @ApiResponses(value = {
     @ApiResponse(code = 200, message = "Return a paginated list of testimonials"),

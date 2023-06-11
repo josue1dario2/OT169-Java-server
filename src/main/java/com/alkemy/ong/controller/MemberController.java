@@ -17,9 +17,11 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/members")
 @Api(tags = "Member Controller", value = "MemberEndpoints")
 public class MemberController {
-
+	private final MemberService memberService;
 	@Autowired
-	private MemberService memberService;
+	public MemberController(MemberService memberService){
+		this.memberService = memberService;
+	}
 
 
 	@PostMapping(produces = {"application/json"}, consumes = {"application/json"})

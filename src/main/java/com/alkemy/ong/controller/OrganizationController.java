@@ -22,11 +22,13 @@ import java.util.List;
 @Validated
 @CrossOrigin
 public class OrganizationController {
-	
+	private final OrganizationServiceImpl service;
+	private final SlideService slideService;
 	@Autowired
-	private OrganizationServiceImpl service;
-	@Autowired
-	private SlideService slideService;
+	public OrganizationController(OrganizationServiceImpl service,SlideService slideService){
+		this.service = service;
+		this.slideService = slideService;
+	}
 
 	@GetMapping("/public") 
 	public OrganizationResponseDto getPublicInfo() {

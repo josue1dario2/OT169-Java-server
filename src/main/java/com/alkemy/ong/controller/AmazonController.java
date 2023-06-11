@@ -11,8 +11,11 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RequestMapping("/storage/")
 public class AmazonController {
 
+    private final AmazonService amazonService;
     @Autowired
-    private AmazonService amazonService;
+    public AmazonController(AmazonService amazonService){
+        this.amazonService = amazonService;
+    }
 
     // Method recieves MultipartFile as a RequestPart
     @PostMapping(value = "/uploadFile", consumes = {MULTIPART_FORM_DATA_VALUE} )

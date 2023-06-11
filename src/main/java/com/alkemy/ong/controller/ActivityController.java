@@ -17,8 +17,11 @@ import javax.validation.Valid;
 @Validated
 public class ActivityController {
 
+    private final ActivityServiceImpl service;
     @Autowired
-    private ActivityServiceImpl service;
+    public ActivityController(ActivityServiceImpl service){
+        this.service = service;
+    }
 
     @PostMapping
     public ActivityDto addActivity(@Valid @RequestBody ActivityDto activityDto) {

@@ -18,11 +18,13 @@ import javax.validation.Valid;
 @Api(tags = "Authentication")
 public class AuthController {
 
+	private final AuthenticationManager authenticationManager;
+	private final AuthService authService;
 	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private AuthService authService;
+	public AuthController(AuthenticationManager authenticationManager,AuthService authService){
+		this.authenticationManager = authenticationManager;
+		this.authService = authService;
+	}
 
 	@PostMapping("/register")
     @ApiOperation(value = "Register a new User in the Data Base.",

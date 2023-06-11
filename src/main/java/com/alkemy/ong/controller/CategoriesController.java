@@ -20,9 +20,11 @@ import java.util.Map;
 @RequestMapping("/categories")
 @Api(tags = "Categories Controller")
 public class CategoriesController {
-
+	private final CategoryService categoryService;
 	@Autowired
-	private CategoryService categoryService;
+	public CategoriesController(CategoryService categoryService){
+		this.categoryService = categoryService;
+	}
 
 
 	@GetMapping("/")//OT169-40

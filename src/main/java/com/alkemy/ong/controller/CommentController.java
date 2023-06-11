@@ -18,8 +18,11 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/comments")
 public class CommentController {
 
+    private final CommentServiceImpl service;
     @Autowired
-    private CommentServiceImpl service;
+    public CommentController(CommentServiceImpl service){
+        this.service = service;
+    }
 
     @GetMapping
     public List<CommentResponseDto> getAllComments() {
