@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SlideServiceImpl implements SlideService {
@@ -89,11 +90,9 @@ public class SlideServiceImpl implements SlideService {
         if(slides.isEmpty()){
             throw new Exception("List Slide is empty");
         }
-        List<SlideDto> dtos = new ArrayList<>();
-        for(Slide entity : slides){
-            dtos.add(Mapper.mapToDto(entity,new SlideDto()));
-        }
-        return dtos;
+        return slides.stream()
+                .map(entity -> Mapper.mapToDto(entity, new SlideDto()))
+                .collect(Collectors.toList());
     }
 
     @Override

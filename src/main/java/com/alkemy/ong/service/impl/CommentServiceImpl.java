@@ -53,6 +53,7 @@ public class CommentServiceImpl implements ICommentService {
                          .stream()
                          .map(comment -> Mapper.mapToDto(comment, new CommentResponseDto()))
                          .collect(Collectors.toList());
+
     }
 
     @Override
@@ -110,10 +111,9 @@ public class CommentServiceImpl implements ICommentService {
         if(entities.isEmpty()){
             throw new Exception("Empty list");
         }
-        List<CommentResponseDto> dtos = new ArrayList<>();
-        for (Comment comment : entities){
-            dtos.add(Mapper.mapToDto(comment,new CommentResponseDto()));
-        }
-        return dtos;
+        return entities.stream()
+                .map(comment -> Mapper.mapToDto(comment, new CommentResponseDto()))
+                .collect(Collectors.toList());
+
     }
 }

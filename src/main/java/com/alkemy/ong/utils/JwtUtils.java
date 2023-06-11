@@ -16,8 +16,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtils {
 
-    @Value("${app.jwtSecret}")
-    private String jwtKey;
+    //@Value("${app.jwtSecret}")
+    private String jwtKey = "secret";
 
     public String extractEmail(String token){return extractClaim(token, Claims::getSubject);}
 

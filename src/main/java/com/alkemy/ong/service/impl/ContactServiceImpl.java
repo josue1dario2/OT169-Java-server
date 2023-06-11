@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ContactServiceImpl implements ContactService {
@@ -44,11 +45,9 @@ public class ContactServiceImpl implements ContactService {
         if(contacts.isEmpty()){
             throw new Exception("List Contact is empty");
         }
-        List<ContactDto> dtos = new ArrayList<>();
-        for(Contact entity : contacts){
-            dtos.add(Mapper.mapToDto(entity,new ContactDto()));
-        }
-        return dtos;
+      return  contacts.stream()
+                .map(entity -> Mapper.mapToDto(entity,new ContactDto()))
+                .collect(Collectors.toList());
     }
 
 }
