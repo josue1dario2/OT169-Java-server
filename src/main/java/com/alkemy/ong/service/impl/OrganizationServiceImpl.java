@@ -22,16 +22,15 @@ public class OrganizationServiceImpl implements IOrganizationService {
 	}
 	@Override
 	public OrganizationResponseDto postPublicInfo(OrganizationRequestDto organizationRequestDto) {
-
-		if(repository.count() == 0) {
-			Organization organization = Mapper.mapFromDto(organizationRequestDto, new Organization());
-			repository.save(organization);
-			return Mapper.mapToDto(organization, new OrganizationResponseDto());
+		Organization organization;
+		if (repository.count() == 0) {
+			organization = new Organization();
+		} else {
+			organization = repository.findAll().get(0);
 		}
-		Organization updatedOrganization = Mapper.mapFromDto(organizationRequestDto,
-				repository.findAll().get(0));
-		repository.save(updatedOrganization);
-		return Mapper.mapToDto(updatedOrganization, new OrganizationResponseDto());
+		Mapper.mapFromDto(organizationRequestDto, organization);
+		repository.save(organization);
+		return Mapper.mapToDto(organization, new OrganizationResponseDto());
 	}
 	
 }

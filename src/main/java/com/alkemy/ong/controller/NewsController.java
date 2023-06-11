@@ -132,12 +132,11 @@ public class NewsController {
                     example = "0"), })
     @GetMapping(produces ={"application/json"} )
     public ResponseEntity<Map<String, Object>> getAllPage(@RequestParam(defaultValue = "0") Integer page){
-        Map<String, Object> news = new HashMap<>();
         try {
-            news = newsService.getAllPages(page);
-            return new ResponseEntity<>(news, HttpStatus.OK);
+            Map<String, Object> news = newsService.getAllPages(page);
+            return ResponseEntity.ok(news);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

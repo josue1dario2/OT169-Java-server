@@ -46,13 +46,13 @@ public class CategoriesController {
 			@ApiResponse(code = 403, message = "Error, the user doesn't have the permissions to use this method"),
 			@ApiResponse(code = 404, message = "Error, not found any Category with that ID")
 	})
-	@GetMapping("/{id}") // OT169-41
+	@GetMapping("/{id}")
 	public ResponseEntity<Category> getById(@PathVariable(name = "id", required = false) String id) {
-		if (categoryService.existsById(id)) {// If the ID corresponds to an Category, returns it
+		if (categoryService.existsById(id)) {
 			return new ResponseEntity<Category>(categoryService.getById(id), HttpStatus.OK);
+		}else{
+			return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
 		}
-		// If the ID doesn't corresponds to an Category, sends an error
-		return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
 	}
 
 	@ApiOperation(value = "Creates a category", consumes = "application/json")
@@ -75,12 +75,11 @@ public class CategoriesController {
 			@ApiResponse(code = 404, message = "Error, not found any Category with that ID")
 	})
 	@PutMapping("/{id}") // OT169-43
-	public ResponseEntity<Category> updateCategory(@PathVariable(name = "id") String id, // I get the ID
-												   @RequestBody Category category) { // I get the Category to be updated
-		if (categoryService.existsById(id)) {// If the category exists
-			return new ResponseEntity<Category>(categoryService.save(category), HttpStatus.OK); // I update it.
+	public ResponseEntity<Category> updateCategory(@PathVariable(name = "id") String id,
+												   @RequestBody Category category) {
+		if (categoryService.existsById(id)) {
+			return new ResponseEntity<Category>(categoryService.save(category), HttpStatus.OK);
 		}
-		// If it doesn't exists, then I return a 500 error code
 		return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
 	}
 
@@ -91,14 +90,14 @@ public class CategoriesController {
 			@ApiResponse(code = 403, message = "Error, the user doesn't have the permissions to use this method"),
 			@ApiResponse(code = 404, message = "Error, not found any Category with that ID")
 	})
-	@DeleteMapping("/{id}") // OT169-44
-	public ResponseEntity<Category> deleteCategory(@PathVariable(name = "id") String id) { // I get the Category to be deleted
-		if (categoryService.existsById(id)) {// If the category exists
-			categoryService.delete( categoryService.getById(id) );// I delete it
-			return new ResponseEntity<Category>(HttpStatus.OK); // I return a 200 code
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Category> deleteCategory(@PathVariable(name = "id") String id) {
+		if (categoryService.existsById(id)) {
+			categoryService.delete( categoryService.getById(id) );
+			return new ResponseEntity<Category>(HttpStatus.OK);
+		}else{
+			return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
 		}
-		// If it doesn't exists, then I return a 500 error code
-		return new ResponseEntity<Category>(HttpStatus.NOT_FOUND);
 	}
 
 	@ApiOperation(value = "Gets the pagination of Categories", consumes = "application/json")
@@ -109,9 +108,8 @@ public class CategoriesController {
 	})
 	@GetMapping("/pages")
 	public ResponseEntity<Map<String, Object>> getAllPage( @RequestParam(defaultValue = "0") int page) {
-		Map<String, Object> cate = new HashMap<>();
 		try {
-			cate = categoryService.getAllPages(page);
+			Map<String, Object> cate = categoryService.getAllPages(page);
 			return new ResponseEntity<>(cate, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

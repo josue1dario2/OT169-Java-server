@@ -51,11 +51,12 @@ public class MemberController {
 					paramType = "path", dataTypeClass = String.class,
 					example = "1")})
 	public ResponseEntity<Member> deleteMember(@PathVariable String id){
-		if(memberService.existsById(id)) {//If the member exists
+		if(memberService.existsById(id)) {
 			memberService.delete( memberService.getById(id) );//I delete the member
-			return new ResponseEntity<Member>(HttpStatus.OK);//I send an OK(200) code
+			return ResponseEntity.ok().build();
+		}else{
+			return ResponseEntity.notFound().build();
 		}
-		return new ResponseEntity<Member>(HttpStatus.INTERNAL_SERVER_ERROR);//If the member doesn't exists, throws 500 error code
 	}
 
 	@ApiOperation(value = "Updates a member")

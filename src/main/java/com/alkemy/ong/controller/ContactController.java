@@ -21,7 +21,7 @@ public class ContactController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody @Valid ContactDto dto) throws Exception {
+    public ResponseEntity<ContactDto> save(@RequestBody @Valid ContactDto dto) throws Exception {
        return ResponseEntity.status(CREATED).body(contactService.create(dto));
 
     }
