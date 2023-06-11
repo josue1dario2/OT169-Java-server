@@ -17,9 +17,8 @@ import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.entity.Category;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category, String> { //Updated by Franco Lamberti (UUID --> String)
-		
-	//Added by Franco Lamberti
+public interface CategoryRepository extends JpaRepository<Category, String> {
+
 	@Query("SELECT a.name FROM Category a")
 	public List<Category> getNamesFromAll();
 

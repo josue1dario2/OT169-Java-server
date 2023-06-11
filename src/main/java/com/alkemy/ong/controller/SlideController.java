@@ -17,11 +17,11 @@ import javax.validation.Valid;
 @RequestMapping("/Slides")
 public class SlideController {
 
+    private final SlideService slideService;
     @Autowired
-    private SlideRepository slideRepository;
-
-    @Autowired
-    private SlideService slideService;
+    public SlideController(SlideService slideService){
+        this.slideService = slideService;
+    }
 
 
     @GetMapping
@@ -37,46 +37,40 @@ public class SlideController {
     private ResponseEntity<Void> createSlide(@Valid @RequestBody SlideRequestDto slideRequestDto){
         try {
             slideService.createSlide(slideRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
-       return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SlideResponseDto> detailsSlide(@PathVariable String id) {
-
-        SlideResponseDto dto = new SlideResponseDto();
         try {
-            dto = slideService.getSlideDetails(id);
-
+            SlideResponseDto dto = slideService.getSlideDetails(id);
+            return ResponseEntity.ok(dto);
         } catch (Exception e) {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSlide(@PathVariable String id){
+    public ResponseEntity<Void> deleteSlide(@PathVariable String id){
         try{
             slideService.deleteSlide(id);
+            return ResponseEntity.status(OK).build();
         } catch (Exception e) {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(OK).build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateSlide(@PathVariable String id, @RequestBody SlideUpdateDto dto){
-
         try{
             slideService.updateSlide(id, dto);
-
+            return ResponseEntity.status(OK).build();
         } catch (Exception e) {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.status(OK).build();
     }
 
 }

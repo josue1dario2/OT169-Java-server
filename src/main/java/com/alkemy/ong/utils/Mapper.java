@@ -2,17 +2,14 @@ package com.alkemy.ong.utils;
 
 import com.alkemy.ong.dto.*;
 import com.alkemy.ong.entity.*;
-import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.repository.OrganizationRepository;
-import com.alkemy.ong.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Mapper {
-	@Autowired
-	private OrganizationRepository orgRepository;
 
 	public static OrganizationResponseDto mapToDto(Organization organization, OrganizationResponseDto dto) {
 		dto.setName(organization.getName());
@@ -32,16 +29,9 @@ public class Mapper {
 	}
 
 	public static Organization mapFromDto(OrganizationRequestDto dto, Organization organization) {
-		organization.setName(dto.getName());
-		organization.setImage(dto.getImage());
-		organization.setEmail(dto.getEmail());
-		organization.setFacebookUrl(dto.getFacebookUrl());
-		organization.setLinkedinUrl(dto.getLinkedinUrl());
-		organization.setInstagramUrl(dto.getInstagramUrl());
-		organization.setPhone(dto.getPhone());
-		organization.setAddress(dto.getAddress());
-		organization.setWelcomeText(dto.getWelcomeText());
-		organization.setAboutUsText(dto.getAboutUsText());
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setSkipNullEnabled(true);
+		modelMapper.map(dto, organization);
 		return organization;
 
 	}

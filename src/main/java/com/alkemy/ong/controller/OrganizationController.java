@@ -40,8 +40,6 @@ public class OrganizationController {
 
 	@GetMapping("/public/Slides/{id}")
 	public ResponseEntity<List<SlideResponseDto>> slideList(@PathVariable String id) throws Exception {
-		List<SlideResponseDto> dots = new ArrayList<>();
-			dots=slideService.slideForOng(id);
-		return ResponseEntity.ok().body(dots);
+		return ResponseEntity.ok().body(slideService.slideForOng(id));
 	}
 }
