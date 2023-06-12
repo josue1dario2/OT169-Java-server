@@ -28,12 +28,14 @@ public class TestimonialServiceImpl implements TestimonialService {
     private Mapper mapper;
 
     @Override
-    public TestimonialDto save(TestimonialDto testimonialDto) {
-        Testimonial testimonial = mapper.mapFromDto(testimonialDto, new Testimonial());
-        Testimonial saved = testimonialRepository.save(testimonial);
-        TestimonialDto result = mapper.mapToDto(saved, new TestimonialDto());
+    public TestimonialDto save(TestimonialDto testimonialDto) throws Exception {
+        try{
+            Testimonial testimonial = mapper.mapFromDto(testimonialDto, new Testimonial());
+            return mapper.mapToDto(testimonialRepository.save(testimonial), new TestimonialDto());
+        }catch (Exception e){
+            throw new Exception("Failed to create");
+        }
 
-        return result;
     }
 
     @Override
@@ -60,39 +62,43 @@ public class TestimonialServiceImpl implements TestimonialService {
             throw new ParameterNotFoundException("");
         }
     }
-    public Map<String, Object> getAllPages (Integer page) throws Exception {
+    public Map<String, Object> getAllPages(Integer page) throws Exception {
         Integer size = 10;
         try {
-            List<List<LinkedHashMap>> testimonialList = new ArrayList<List<LinkedHashMap>>();
-
             Pageable paging = PageRequest.of(page, size);
             String url = "/testimonials/pages?page=";
 
-            Page<List<LinkedHashMap>> pagedTestimonials;
-            pagedTestimonials = testimonialRepository.findPage(paging);
-
-            testimonialList = pagedTestimonials.getContent();
+            Page<List<LinkedHashMap>> pagedTestimonials = testimonialRepository.findPage(paging);
+            List<List<LinkedHashMap>> testimonialList = pagedTestimonials.getContent();
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("Total Items", pagedTestimonials.getTotalElements());
             response.put("Total Pages", pagedTestimonials.getTotalPages());
             response.put("Current Page", pagedTestimonials.getNumber());
 
-            if (pagedTestimonials.getNumber() == pagedTestimonials.getTotalPages() - 1) {
-                response.put("Next Page", "This is the last page");
-            } else {
-                response.put("Next Page", url.concat(String.valueOf(pagedTestimonials.getNumber() + 1)));
-            }
-            if (pagedTestimonials.getNumber() == 0) {
-                response.put("Previous Page", "This is the first page");
-            } else {
-                response.put("Previous Page", url.concat(String.valueOf(pagedTestimonials.getNumber() - 1)));
-            }
+            addNextPageToResponse(response, url, pagedTestimonials);
+            addPreviousPageToResponse(response, url, pagedTestimonials);
+
             response.put("Testimonials", testimonialList);
 
             return response;
-
         } catch (Exception e) {
-            throw new Exception("Fail to load pages");
+            throw new Exception("Failed to load pages", e);
+        }
+    }
+
+    private void addNextPageToResponse(Map<String, Object> response, String url, Page<List<LinkedHashMap>> pagedTestimonials) {
+        if (pagedTestimonials.getNumber() == pagedTestimonials.getTotalPages() - 1) {
+            response.put("Next Page", "This is the last page");
+        } else {
+            response.put("Next Page", url.concat(String.valueOf(pagedTestimonials.getNumber() + 1)));
+        }
+    }
+
+    private void addPreviousPageToResponse(Map<String, Object> response, String url, Page<List<LinkedHashMap>> pagedTestimonials) {
+        if (pagedTestimonials.getNumber() == 0) {
+            response.put("Previous Page", "This is the first page");
+        } else {
+            response.put("Previous Page", url.concat(String.valueOf(pagedTestimonials.getNumber() - 1)));
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public  interface  NewsService {
 
-     NewsDto save(NewsDto newsDto);
+     NewsDto save(NewsDto newsDto) throws Exception;
 
     void delete(String id);
 

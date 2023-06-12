@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface TestimonialService {
 
-     TestimonialDto save(TestimonialDto testimonialDto);
+     TestimonialDto save(TestimonialDto testimonialDto) throws Exception;
 
     void delete(String id);
 

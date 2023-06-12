@@ -41,36 +41,40 @@ public class SlideServiceImpl implements SlideService {
     @Bean
     public Mapper mapper(){return new Mapper();}
 
-    @Override
     public void createSlide(SlideRequestDto slideRequestDto) throws Exception {
-
         Slide slide = new Slide();
-        Integer dOrder;
-        if (slideRequestDto.getOrder()==null){
-              dOrder= Math.toIntExact(slideRepository.count()+1);
-              slide.setOrder(dOrder);
-        }else {
-            slide.setOrder(slideRequestDto.getOrder());
-        }
-        /*
-        * Transform Base64 to MultipartFile, send to AmazonService*/
-        String nameFile = "Slide "+slide.getOrder();
-        MultipartFile imgSend= this.base64ToImage(slideRequestDto.getImgUrl(),nameFile);
-        String amazonUrl=amazonService.uploadFile(imgSend);
-        /*
-        * find organization to add to slide*/
-        Optional<Organization> orgFind = organizationRepository.findById(slideRequestDto.getOrganizationId());
-        if (!orgFind.isPresent()){
-            throw new Exception("Organization not found in Slide creation");
-        }else {
-            slide.setOrganizationId(orgFind.get());
-        }
-        slide.setOrg(slideRequestDto.getOrganizationId());
-        slide.setImageUrl(amazonUrl);
+        setSlideOrder(slide, slideRequestDto);
+        uploadImageToAmazon(slide, slideRequestDto);
+        setOrganizationToSlide(slide, slideRequestDto);
         slide.setText(slideRequestDto.getText());
 
         slideRepository.save(slide);
     }
+
+    private void setSlideOrder(Slide slide, SlideRequestDto slideRequestDto) {
+        Integer order = slideRequestDto.getOrder();
+        if (order == null) {
+            order = Math.toIntExact(slideRepository.count() + 1);
+        }
+        slide.setOrder(order);
+    }
+
+    private void uploadImageToAmazon(Slide slide, SlideRequestDto slideRequestDto) throws Exception {
+        String nameFile = "Slide " + slide.getOrder();
+        MultipartFile imgSend = base64ToImage(slideRequestDto.getImgUrl(), nameFile);
+        String amazonUrl = amazonService.uploadFile(imgSend);
+        slide.setImageUrl(amazonUrl);
+    }
+
+    private void setOrganizationToSlide(Slide slide, SlideRequestDto slideRequestDto) throws Exception {
+        Optional<Organization> orgFind = organizationRepository.findById(slideRequestDto.getOrganizationId());
+        if (!orgFind.isPresent()) {
+            throw new Exception("Organization not found in Slide creation");
+        }
+        slide.setOrganizationId(orgFind.get());
+        slide.setOrg(slideRequestDto.getOrganizationId());
+    }
+
 
     @Override
     public SlideResponseDto getSlideDetails(String id) throws Exception {
@@ -78,11 +82,9 @@ public class SlideServiceImpl implements SlideService {
         Optional<Slide> find = slideRepository.findById(id);
         if (!find.isPresent()){
             throw new Exception("Slide not found");
+        }else{
+            return mapper.fullSlideToDto(find.get());
         }
-        Slide entity =find.get();
-        SlideResponseDto dto = mapper.fullSlideToDto(entity);
-
-        return dto;
     }
 
     @Override
@@ -103,8 +105,7 @@ public class SlideServiceImpl implements SlideService {
         if (!find.isPresent()){
             throw new Exception("Slide not found");
         }else{
-            Slide entidad = find.get();
-            slideRepository.delete(entidad);
+            slideRepository.delete(find.get());
         }
     }
     //OP169-60 Slides for public Endpoint

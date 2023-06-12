@@ -4,7 +4,6 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.News;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.NewsService;
-import com.alkemy.ong.utils.Mapper;
 import com.alkemy.ong.utils.NewsMapper;
 import com.amazonaws.services.simplesystemsmanagement.model.ParameterNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Service
@@ -29,12 +27,15 @@ public class NewsServiceImpl implements NewsService {
 
 
     @Override
-    public NewsDto save(NewsDto newsDto) {
-        News newsEntity = newsMapper.newsDto2Entity(newsDto, new News());
-        News saved = newsRepository.save(newsEntity);
-        NewsDto result = newsMapper.newsEntity2Dto(saved, new NewsDto());
+    public NewsDto save(NewsDto newsDto) throws Exception {
+        try{
+            News newsEntity = newsMapper.newsDto2Entity(newsDto, new News());
+            return newsMapper.newsEntity2Dto(newsRepository.save(newsEntity), new NewsDto());
+        }catch (Exception e){
+            throw new Exception("Failed to create");
+        }
 
-        return result;
+
     }
 
     @Override
@@ -42,8 +43,7 @@ public class NewsServiceImpl implements NewsService {
 
         Optional<News> response = newsRepository.findById(id);
         if (response.isPresent()) {
-            News news = response.get();
-            return newsMapper.newsEntity2Dto(news, new NewsDto());
+            return newsMapper.newsEntity2Dto(response.get(), new NewsDto());
         } else {
             throw new ParameterNotFoundException("");
         }
@@ -91,36 +91,49 @@ public class NewsServiceImpl implements NewsService {
     public Map<String, Object> getAllPages(Integer page) throws Exception{
         Integer size = 10;
         try {
-            List<List<LinkedHashMap>> newsList = new ArrayList<List<LinkedHashMap>>();
             Pageable paging = PageRequest.of(page,size);
             String url = "/news?page=";
 
-            Page<List<LinkedHashMap>> pagedNews;
-            pagedNews = newsRepository.findPage(paging);
-            newsList = pagedNews.getContent();
+            Page<List<LinkedHashMap>> pagedNews = newsRepository.findPage(paging);
+            List<List<LinkedHashMap>> newsList = pagedNews.getContent();
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("Total Items", pagedNews.getTotalElements());
             response.put("Total Pages", pagedNews.getTotalPages());
             response.put("Current Page", pagedNews.getNumber());
 
-            if (pagedNews.getNumber() == pagedNews.getTotalPages() - 1) {
-                response.put("Next Page", "This is the last page");
-            } else {
-                response.put("Next Page", url.concat(String.valueOf(pagedNews.getNumber() + 1)));
-            }
-            if (pagedNews.getNumber() == 0) {
-                response.put("Previous Page", "This is the first page");
-            } else {
-                response.put("Previous Page", url.concat(String.valueOf(pagedNews.getNumber() - 1)));
-            }
-            response.put("News", newsList);
+            addNextPageToResponse(response, url, pagedNews);
+            addPreviousPageToResponse(response, url, pagedNews);
 
+            response.put("News", newsList);
             return response;
 
         } catch (Exception e) {
             throw new Exception("Fail to load pages");
         }
         }
+    private void addNextPageToResponse(Map<String, Object> response, String url, Page<List<LinkedHashMap>> pagedNews) {
+        if (pagedNews.getNumber() == pagedNews.getTotalPages() - 1) {
+            response.put("Next Page", "This is the last page");
+        } else {
+            response.put("Next Page", url.concat(String.valueOf(pagedNews.getNumber() + 1)));
+        }
+    }
+
+    private void addPreviousPageToResponse(Map<String, Object> response, String url, Page<List<LinkedHashMap>> pagedNews) {
+        if (pagedNews.getNumber() == 0) {
+            response.put("Previous Page", "This is the first page");
+        } else {
+            response.put("Previous Page", url.concat(String.valueOf(pagedNews.getNumber() - 1)));
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 }

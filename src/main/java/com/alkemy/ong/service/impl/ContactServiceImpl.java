@@ -31,8 +31,7 @@ public class ContactServiceImpl implements ContactService {
         if(contactDto.getEmail().isEmpty() || contactDto.getEmail() == null){
             throw new Exception("Email is empty");
         }
-       Contact newContact = new Contact();
-        newContact = Mapper.mapFromDto(contactDto,new Contact());
+        Contact newContact = Mapper.mapFromDto(contactDto,new Contact());
         contactRepository.save(newContact);
         emailService.sendContactMail(contactDto.getEmail(), contactDto.getName());
         return Mapper.mapToDto(newContact,contactDto);
