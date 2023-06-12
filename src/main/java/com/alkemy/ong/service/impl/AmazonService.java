@@ -1,4 +1,4 @@
-package com.alkemy.ong.service;
+package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.utils.CustomMultipartFile;
 import com.amazonaws.auth.AWSCredentials;

@@ -10,9 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.ong.entity.Category;
-import com.alkemy.ong.service.CategoryService;
+import com.alkemy.ong.service.impl.CategoryService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -5,7 +5,7 @@ import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.Role;
 import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UserRepository;
-import com.alkemy.ong.service.EmailService;
+import com.alkemy.ong.service.impl.EmailService;
 import com.alkemy.ong.service.impl.UserDetailsCustomServiceImpl;
 import com.alkemy.ong.utils.JwtUtils;
 import org.junit.jupiter.api.BeforeEach;

@@ -4,14 +4,11 @@ import com.alkemy.ong.dto.ContactDto;
 import com.alkemy.ong.entity.Contact;
 import com.alkemy.ong.repository.ContactRepository;
 import com.alkemy.ong.service.ContactService;
-import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -8,7 +8,6 @@ import com.alkemy.ong.entity.Organization;
 import com.alkemy.ong.entity.Slide;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.repository.SlideRepository;
-import com.alkemy.ong.service.AmazonService;
 import com.alkemy.ong.service.SlideService;
 import com.alkemy.ong.utils.CustomMultipartFile;
 import com.alkemy.ong.utils.Mapper;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

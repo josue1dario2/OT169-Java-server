@@ -1,4 +1,4 @@
-package com.alkemy.ong.service;
+package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.dto.MembersResponseDto;
@@ -16,9 +16,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
-	
+	private final MemberRepository memberRepository;
 	@Autowired
-	private MemberRepository memberRepository;
+	public MemberService(MemberRepository memberRepository){
+		this.memberRepository = memberRepository;
+	}
 	
 	//Create / Update
 	public Member save(Member member) {

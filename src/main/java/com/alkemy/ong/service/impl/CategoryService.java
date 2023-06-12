@@ -1,4 +1,4 @@
-package com.alkemy.ong.service;
+package com.alkemy.ong.service.impl;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -20,9 +20,11 @@ import com.alkemy.ong.repository.CategoryRepository;
 
 @Service
 public class CategoryService {
-
+	private final CategoryRepository categoryRepository;
 	@Autowired
-	private CategoryRepository categoryRepository;
+	public CategoryService(CategoryRepository categoryRepository){
+		this.categoryRepository = categoryRepository;
+	}
 	
 	private CategoryDTO convertEntityToDto(Category category) {
 

@@ -2,7 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.entity.Category;
 import com.alkemy.ong.repository.CategoryRepository;
-import com.alkemy.ong.service.CategoryService;
+import com.alkemy.ong.service.impl.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;

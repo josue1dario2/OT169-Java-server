@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.ong.entity.Member;
-import com.alkemy.ong.service.MemberService;
+import com.alkemy.ong.service.impl.MemberService;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
