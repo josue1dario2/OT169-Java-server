@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
@@ -27,11 +29,11 @@ public class ContactController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getContactList(){
+    public ResponseEntity<List<ContactDto>> getContactList(){
         try{
             return ResponseEntity.status(OK).body(contactService.getContactList());
         }catch (Exception e){
-            return ResponseEntity.status(NO_CONTENT).body(e.getMessage());
+            return ResponseEntity.noContent().build();
         }
     }
 }

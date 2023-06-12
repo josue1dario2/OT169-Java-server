@@ -44,13 +44,10 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<ContactDto> getContactList() throws Exception {
-        List<Contact> contacts = contactRepository.findAll();
-        if(contacts.isEmpty()){
-            throw new Exception("List Contact is empty");
-        }
-      return  contacts.stream()
-                .map(entity -> Mapper.mapToDto(entity,new ContactDto()))
-                .collect(Collectors.toList());
-    }
+            List<Contact> contacts = contactRepository.findAll();
+            return  contacts.stream()
+                    .map(entity -> Mapper.mapToDto(entity,new ContactDto()))
+                    .collect(Collectors.toList());
 
+    }
 }

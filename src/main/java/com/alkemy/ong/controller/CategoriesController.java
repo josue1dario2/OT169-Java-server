@@ -35,7 +35,7 @@ public class CategoriesController {
 			@ApiResponse(code = 403, message = "Error, the user doesn't have the permissions to use this method"),
 			@ApiResponse(code = 404, message = "Error, not found any Category.class")
 	})
-	public List<String> getNamesFromAll(){
+	public List<String> getAllCategoryNames(){
 		return categoryService.getNamesFromAll();
 	}
 
