@@ -21,11 +21,14 @@ import java.util.Optional;
 @Service
 public class TestimonialServiceImpl implements TestimonialService {
 
-    @Autowired
-    private TestimonialRepository testimonialRepository;
+    private final TestimonialRepository testimonialRepository;
+    private final Mapper mapper;
 
     @Autowired
-    private Mapper mapper;
+    public TestimonialServiceImpl(TestimonialRepository testimonialRepository, Mapper mapper) {
+        this.testimonialRepository = testimonialRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public TestimonialDto save(TestimonialDto testimonialDto) throws Exception {

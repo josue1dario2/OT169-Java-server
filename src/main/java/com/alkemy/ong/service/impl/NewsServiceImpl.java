@@ -19,11 +19,14 @@ import java.util.*;
 @Service
 public class NewsServiceImpl implements NewsService {
 
-    @Autowired
-    private NewsMapper newsMapper;
+    private final NewsMapper newsMapper;
+    private final NewsRepository newsRepository;
 
     @Autowired
-    private NewsRepository newsRepository;
+    public NewsServiceImpl(NewsMapper newsMapper, NewsRepository newsRepository) {
+        this.newsMapper = newsMapper;
+        this.newsRepository = newsRepository;
+    }
 
 
     @Override

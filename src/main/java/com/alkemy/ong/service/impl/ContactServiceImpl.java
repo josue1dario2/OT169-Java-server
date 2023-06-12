@@ -18,10 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class ContactServiceImpl implements ContactService {
 
+    private final ContactRepository contactRepository;
+    private final EmailService emailService;
+
     @Autowired
-    private ContactRepository contactRepository;
-    @Autowired
-    private EmailService emailService;
+    public ContactServiceImpl(ContactRepository contactRepository, EmailService emailService) {
+        this.contactRepository = contactRepository;
+        this.emailService = emailService;
+    }
 
     @Override
     public ContactDto create(ContactDto contactDto) throws Exception {

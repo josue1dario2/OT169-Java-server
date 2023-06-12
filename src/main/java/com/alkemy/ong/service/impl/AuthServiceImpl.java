@@ -24,26 +24,32 @@ import javax.servlet.http.HttpServletRequest;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsCustomServiceImpl userDetailsCustomService;
+    private final RoleRepository roleRepository;
+    private final JwtUtils jwtUtils;
+    private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsCustomServiceImpl userDetailsCustomService;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private EmailService emailService;
+    public AuthServiceImpl(
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            UserDetailsCustomServiceImpl userDetailsCustomService,
+            RoleRepository roleRepository,
+            JwtUtils jwtUtils,
+            UserRepository userRepository,
+            EmailService emailService
+    ) {
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.userDetailsCustomService = userDetailsCustomService;
+        this.roleRepository = roleRepository;
+        this.jwtUtils = jwtUtils;
+        this.userRepository = userRepository;
+        this.emailService = emailService;
+    }
 
     public ResponseEntity<AuthenticationResponse> register (User user) throws Exception {
         User findUser = userRepository.findByEmail(user.getEmail());

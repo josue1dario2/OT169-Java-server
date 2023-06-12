@@ -13,8 +13,12 @@ import com.alkemy.ong.utils.Mapper;
 @Service
 public class OrganizationServiceImpl implements IOrganizationService {
 
+	private final OrganizationRepository repository;
+
 	@Autowired
-	private OrganizationRepository repository;
+	public OrganizationServiceImpl(OrganizationRepository repository) {
+		this.repository = repository;
+	}
 
 	@Override
 	public OrganizationResponseDto getPublicInfo() {

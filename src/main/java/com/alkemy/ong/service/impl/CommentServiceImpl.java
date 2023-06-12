@@ -31,20 +31,26 @@ import java.util.stream.Collectors;
 @Service
 public class CommentServiceImpl implements ICommentService {
 
-    @Autowired
-    private CommentRepository repository;
+    private final CommentRepository repository;
+    private final UserRepository userRepository;
+    private final NewsRepository newsRepository;
+    private final UserService userService;
+    private final NewsService newsService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private NewsRepository newsRepository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private NewsService newsService;
+    public CommentServiceImpl(
+            CommentRepository repository,
+            UserRepository userRepository,
+            NewsRepository newsRepository,
+            UserService userService,
+            NewsService newsService
+    ) {
+        this.repository = repository;
+        this.userRepository = userRepository;
+        this.newsRepository = newsRepository;
+        this.userService = userService;
+        this.newsService = newsService;
+    }
 
 
     @Override

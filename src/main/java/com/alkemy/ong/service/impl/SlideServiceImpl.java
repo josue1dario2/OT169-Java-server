@@ -28,14 +28,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class SlideServiceImpl implements SlideService {
+    private final SlideRepository slideRepository;
+    private final OrganizationRepository organizationRepository;
+    private final AmazonService amazonService;
+    private final Mapper mapper;
+
     @Autowired
-    private SlideRepository slideRepository;
-    @Autowired
-    private OrganizationRepository organizationRepository;
-    @Autowired
-    private AmazonService amazonService;
-    @Autowired
-    private Mapper mapper;
+    public SlideServiceImpl(
+            SlideRepository slideRepository,
+            OrganizationRepository organizationRepository,
+            AmazonService amazonService,
+            Mapper mapper
+    ) {
+        this.slideRepository = slideRepository;
+        this.organizationRepository = organizationRepository;
+        this.amazonService = amazonService;
+        this.mapper = mapper;
+    }
 
 
     @Bean

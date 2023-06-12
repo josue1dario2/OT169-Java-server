@@ -22,11 +22,14 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    public UserServiceImpl(UserRepository userRepository, JwtUtils jwtUtils) {
+        this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
+    }
 
     @Override
     public User findByEmail(String email) throws Exception {
