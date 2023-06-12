@@ -72,12 +72,12 @@ public class NewsServiceImpl implements NewsService {
         Optional<News> optional = newsRepository.findById(id);
 
         if (optional.isPresent()) {
-            News updatedNews = newsMapper.updateValues(newsRepository.findById(id).get(), newsDto);
-            newsRepository.save(updatedNews);
-                return newsDto;
+            News existingNews = optional.get();
+            News updatedNews = newsMapper.updateValues(existingNews, newsDto);
+            News savedNews = newsRepository.save(updatedNews);
+            return newsMapper.newsEntity2Dto(savedNews,new NewsDto());
         } else {
-            throw new ParameterNotFoundException("");
-
+            throw new ParameterNotFoundException("News not found");
         }
     }
 
@@ -129,14 +129,6 @@ public class NewsServiceImpl implements NewsService {
             response.put("Previous Page", url.concat(String.valueOf(pagedNews.getNumber() - 1)));
         }
     }
-
-
-
-
-
-
-
-
 
 
 }
