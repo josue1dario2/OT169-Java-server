@@ -19,21 +19,19 @@ import com.alkemy.ong.entity.Category;
 import com.alkemy.ong.repository.CategoryRepository;
 
 @Service
-/**
- * @author Franco Lamberti
- */
 public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
 	private CategoryDTO convertEntityToDto(Category category) {
-		CategoryDTO categoryDTO = new CategoryDTO();
-		categoryDTO.setId(category.getId());
-		categoryDTO.setDescription(category.getDescription());
-		categoryDTO.setImage(category.getImage());
-		categoryDTO.setName(category.getName());
-		return categoryDTO;
+
+		return new CategoryDTO(
+				category.getId(),
+				category.getDescription(),
+				category.getImage(),
+				category.getName()
+		);
 	}
 	
 	//Get all
@@ -60,11 +58,10 @@ public class CategoryService {
 	}
 	
 	public List<String> getNamesFromAll(){
-		List<String> names = new ArrayList();
-		for (Category category : categoryRepository.findAll() ) {
-			names.add(category.getName());
-		}
-		return names;
+		return categoryRepository.findAll()
+				.stream()
+				.map(Category::getName)
+				.collect(Collectors.toList());
 	}
 
 	public boolean existsById(String id){

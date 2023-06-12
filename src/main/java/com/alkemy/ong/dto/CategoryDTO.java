@@ -14,5 +14,7 @@ public class CategoryDTO {
     private String image;
     private Timestamp timestamp = Timestamp.from(Instant.now());
     private boolean soft_delete = Boolean.FALSE;
-	
+
+    public CategoryDTO(String id, String description, String image, String name) {
+    }
 }

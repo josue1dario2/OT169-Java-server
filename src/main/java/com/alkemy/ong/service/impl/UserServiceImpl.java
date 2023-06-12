@@ -15,10 +15,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,14 +33,12 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) throws Exception {
 
         if (email.isEmpty() || email == null){
-            throw new Exception("Mail is empty");
+            throw new IllegalAccessException("Mail is empty");
         }
-
         User usuario = userRepository.findByEmail(email);
         if (usuario==null){
-            throw new Exception("User not found");
+            throw new NoSuchElementException("User not found");
         }
-
         return usuario;
     }
 
@@ -86,17 +82,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> getAllUser() {
         List<User> userList = userRepository.findAll();
-        List<String> list = new ArrayList<>();
-
-        if(userList.size() == 0){
+        if(userList.isEmpty()){
             return ResponseEntity.noContent().build();
         }
+        List<String> emailList = userList.stream()
+                .map(User::getEmail)
+                .collect(Collectors.toList());
 
-        for(User user : userList){
-            list.add(user.getEmail());
-        }
-
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(emailList);
     }
 
     @Override
