@@ -35,7 +35,7 @@ public class TestimonialController {
             @ApiResponse(code = 400 , message = "Bad request/Invalid field")
     })
     @PostMapping
-    public ResponseEntity<TestimonialDto> save(@Valid @RequestBody TestimonialDto testimonialDto){
+    public ResponseEntity<TestimonialDto> save(@Valid @RequestBody TestimonialDto testimonialDto) throws Exception {
         TestimonialDto savedTestimonials = testimonialService.save(testimonialDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTestimonials);
     }

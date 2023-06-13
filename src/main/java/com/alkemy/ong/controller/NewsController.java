@@ -39,7 +39,7 @@ public class NewsController {
                                 dataTypeClass = NewsDto.class)
     })
     @PostMapping(produces = {"application/json"}, consumes = {"application/json"})
-    public ResponseEntity<NewsDto> save( @Valid @RequestBody NewsDto news){
+    public ResponseEntity<NewsDto> save( @Valid @RequestBody NewsDto news) throws Exception {
 
         NewsDto savedNews= newsService.save(news);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedNews);

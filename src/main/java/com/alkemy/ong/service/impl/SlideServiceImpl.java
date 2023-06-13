@@ -15,6 +15,7 @@ import javassist.NotFoundException;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ public class SlideServiceImpl implements SlideService {
     private final Mapper mapper;
 
     @Autowired
+    @Lazy
     public SlideServiceImpl(
             SlideRepository slideRepository,
             OrganizationRepository organizationRepository,

@@ -1,6 +1,5 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
